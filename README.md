@@ -1,13 +1,38 @@
 # Presentation Builder
 
-Generate polished, self-contained HTML5 slide decks for technical and academic presentations — research paper talks, engineering demos, 20-minute project showcases, and business-technical pitches. Powered by Claude Code + `SKILL.md`.
+Generate polished, self-contained HTML5 slide decks for technical and academic presentations — research paper talks, engineering demos, 20-minute project showcases, and business-technical pitches.
+
+**Powered by** Claude Code + `SKILL.md`
+
+---
+
+## Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Project Structure](#project-structure)
+3. [End-to-End Workflow](#end-to-end-workflow)
+   - [Step 1 — Choose a style](#step-1--choose-a-style)
+   - [Step 2 — Provide your content](#step-2--provide-your-content)
+   - [Step 3 — Add images (optional)](#step-3--add-images-optional)
+   - [Step 4 — Invoke the skill](#step-4--invoke-the-skill)
+   - [Step 5 — Review and iterate](#step-5--review-and-iterate)
+   - [Step 6 — Export to PPTX (optional)](#step-6--export-to-pptx-optional)
+4. [Use Cases](#use-cases)
+5. [Available Styles](#available-styles)
+6. [Extract Any Brand Live (Firecrawl Setup)](#extract-any-brand-live-firecrawl-setup)
+7. [Creating a Custom Style](#creating-a-custom-style)
+8. [Design Principles](#design-principles)
+9. [Cloning & Reuse](#cloning--reuse)
 
 ---
 
 ## Prerequisites
 
-- [Claude Code](https://claude.ai/code) installed
-- Python 3.9+ (for PPTX export only)
+| Requirement | Purpose |
+|---|---|
+| [Claude Code](https://claude.ai/code) | Running the skill |
+| Python 3.9+ | PPTX export only — skip if not needed |
+| Firecrawl API key | Live brand extraction only — [see setup below](#extract-any-brand-live-firecrawl-setup) |
 
 ---
 
@@ -15,67 +40,77 @@ Generate polished, self-contained HTML5 slide decks for technical and academic p
 
 ```
 presentation_builder/
-├── SKILL.md                    # The skill — Claude's full instruction set
-├── assets/                     # Drop images here for use in slides
-├── scripts/                    # Drop your notes, abstracts, or write-ups here
-├── styles/                     # 44 style templates (32 visual + 12 brand)
+├── SKILL.md                     # Claude's full instruction set — the brain
+├── assets/                      # Drop your images here
+├── scripts/                     # Drop your notes, abstracts, write-ups here
+├── styles/                      # 44 style templates (32 visual + 12 brand)
 │   └── <name>/
-│       ├── style.md            # Design tokens: colors, fonts, spacing
-│       └── style.html          # Live demo of the style (open in browser)
+│       ├── style.md             # Design tokens: colors, fonts, spacing, voice
+│       └── style.html           # Live 4-slide demo — open in browser to preview
 ├── principles/
-│   ├── design-principles.md   # 20 codified design rules with research citations
-│   └── images/                 # Illustrated rule reference plates
+│   ├── design-principles.md    # 20 codified design rules with research citations
+│   └── images/                  # Illustrated rule reference plates (one per rule)
 ├── template_creation/
-│   ├── README.md               # How to create a new style from any website
-│   ├── extract-brand.md        # Firecrawl brand extraction recipe
-│   └── _style-template.md      # Blank schema for a new style
+│   ├── README.md                # How to create a new style from any website
+│   ├── extract-brand.md         # Firecrawl brand extraction recipe
+│   └── _style-template.md       # Blank schema for a new style
 ├── tools/
-│   ├── html_to_pptx.py         # Convert HTML slides → PPTX
-│   └── requirements.txt        # Python deps for the converter
-└── final_slides/               # All generated presentations land here
+│   ├── html_to_pptx.py          # Convert HTML slides → PPTX
+│   └── requirements.txt         # Python deps for the converter
+└── final_slides/                # All generated presentations saved here
 ```
 
 ---
 
 ## End-to-End Workflow
 
-### Step 1 — Browse the styles
+### Step 1 — Choose a style
 
-Open any `styles/<name>/style.html` in your browser to preview a style before committing. Visual styles have a full 4-slide demo. Brand styles show the design language of real companies (Stripe, Apple, Linear, etc.).
+Open any `styles/<name>/style.html` in your browser to preview it — every style has a live 4-slide demo showing its exact colors, typography, and component patterns.
 
-**Visual styles** — presentation aesthetics not tied to a brand:
-`apple-keynote` · `apple-keynote-light` · `apple-minimal` · `minimalist-clean` · `swiss-design` · `editorial-magazine` · `dark-mode-pro` · `modern-saas-dark` · `modern-tech-startup` · `dark-glow` · `glassmorphism` · `cluely` · `cluely-3d` · `terminal-code` · `retro-synthwave` · `retro-game` · `retro-game-2` · `cyberpunk-neon` · `brutalist` · `isometric-3d` · `liquid-metal` · `animated-gradients` · `neumorphism` · `memphis-design` · `hand-drawn-sketch` · `simple-colors` · `white-pops-of-color` · `art-deco-luxury` · `black-neon-glow` · `blue-background-modal` · `modern-modal` · `cluely-v2`
+Pick from three sources:
 
-**Brand styles** — use the visual identity of a real product:
-`stripe` · `apple` · `linear` · `notion` · `vercel` · `figma` · `cursor` · `claude` · `spotify` · `airbnb` · `nvidia` · `ebay`
+**A. Visual styles** — general presentation aesthetics, not tied to any real brand.
+→ [See the full list below](#visual-styles)
 
-**Or extract any brand live** — paste a URL and Claude will use Firecrawl to pull the brand DNA and save a new style automatically.
+**B. Pre-built brand styles** — design systems modelled on real products.
+→ [See the full list below](#brand-styles)
+
+**C. Extract any brand live** — paste any URL and Claude pulls the brand DNA automatically using Firecrawl.
+→ [Firecrawl setup required — see below](#extract-any-brand-live-firecrawl-setup)
+
+> **Not sure which to pick?** For academic talks and research, `minimalist-clean`, `swiss-design`, or `apple-keynote` are safe defaults. For engineering projects, `modern-saas-dark`, `cluely`, or `dark-mode-pro` work well.
 
 ---
 
 ### Step 2 — Provide your content
 
-You have three options — tell Claude which to use:
+Tell Claude which input to use:
 
-**(a) Script or notes file**
-Drop a `.txt` or `.md` file into `scripts/`. This can be a paper abstract, project description, bullet-point notes, or a full write-up. Claude reads it in full before generating.
+**Option A — Script or notes file**
+
+Drop a `.txt` or `.md` file into `scripts/` — paper abstract, project description, bullet-point notes, or a full write-up. Claude reads it in full before generating.
 
 ```
 scripts/
 └── my-research-paper.md
 ```
 
-**(b) Codebase exploration**
-For software projects, Claude can explore your project directory to extract the architecture, tech stack, data flow, and key design decisions — producing more accurate diagrams. Claude will ask before doing this (it uses extra tokens).
+**Option B — Explore the codebase**
 
-**(c) Both**
-Codebase exploration for structure + a script file for narrative context. Best for engineering showcases where you want accurate diagrams AND a written story.
+For software projects, Claude can explore your project directory to extract architecture, tech stack, data flow, and key design decisions. This produces more accurate diagrams and component descriptions.
+
+> Claude will ask before doing this since it uses extra tokens.
+
+**Option C — Both**
+
+Codebase exploration for structural accuracy + a script file for narrative framing. Best for engineering showcases.
 
 ---
 
 ### Step 3 — Add images (optional)
 
-Drop any images into `assets/`. Claude will ask which ones to include and reference them in the slides as `../assets/<filename>`.
+Drop any images into `assets/`. Claude checks this folder automatically and asks which ones to include.
 
 ```
 assets/
@@ -83,11 +118,13 @@ assets/
 └── results-chart.png
 ```
 
+Images are referenced in the final HTML as `../assets/<filename>` — keep the folder alongside your generated presentation.
+
 ---
 
 ### Step 4 — Invoke the skill
 
-Open Claude Code in this project directory and give the instruction. Examples:
+Open Claude Code in this directory and describe what you want. Examples:
 
 ```
 Use the presentation builder skill.
@@ -97,52 +134,64 @@ Content: scripts/my-paper.md
 
 ```
 Use the presentation builder skill.
-Style: stripe brand
-Content: explore the codebase to understand the architecture
+Style: stripe
+Content: explore the codebase — this is an engineering showcase
 ```
 
 ```
 Use the presentation builder skill.
 Style: minimalist-clean
-Content: both — explore the codebase and also read scripts/project-notes.txt
+Content: both — explore the codebase and read scripts/project-notes.txt
 ```
 
-Claude will ask three questions (style, content, images) and then generate.
+```
+Use the presentation builder skill.
+Style: extract from https://mycompany.com
+Content: scripts/pitch-notes.md
+```
+
+Claude will confirm style, content source, and images — then generate.
 
 ---
 
-### Step 5 — Review in the browser
+### Step 5 — Review and iterate
 
-Claude saves the output to `final_slides/<name>-slides.html` and opens it automatically.
+Claude saves the output to `final_slides/<name>-slides.html` and opens it in your browser automatically.
 
-**Keyboard controls:**
+**Keyboard controls in the generated presentation:**
 
 | Key | Action |
 |---|---|
-| `Space` or `→` | Next animation step, then advance to next slide |
+| `Space` or `→` | Next animation step, then next slide |
 | `←` | Previous slide |
 
-Review the deck, then tell Claude what to change. Iterate in plain conversation — no need to restart.
+Tell Claude what to change in plain conversation. You don't need to restart — just say:
+
+- "Make the title slide more dramatic"
+- "Add a slide after slide 3 showing the architecture diagram"
+- "The metrics on slide 5 need to be bigger"
 
 ---
 
 ### Step 6 — Export to PPTX (optional)
 
-Once you're happy with the HTML version, convert it to PPTX for sharing or uploading to Google Slides / PowerPoint.
+Convert your HTML presentation to PPTX for sharing via email, uploading to Google Slides, or presenting in PowerPoint.
 
 **One-time setup:**
+
 ```bash
 pip install -r tools/requirements.txt
 playwright install chromium
 ```
 
-**Convert:**
+**Convert any generated presentation:**
+
 ```bash
 python3 tools/html_to_pptx.py final_slides/my-slides.html
-# Output: final_slides/my-slides.pptx
+# → final_slides/my-slides.pptx
 ```
 
-The converter opens the HTML in a headless browser, screenshots each slide at 1920×1080, and assembles a 16:9 PPTX. Every font, gradient, and layout detail is preserved exactly as rendered.
+> The converter opens the HTML in a headless browser, screenshots each slide at 1920×1080, and assembles a 16:9 PPTX. Every font, gradient, and layout is preserved exactly as rendered.
 
 ---
 
@@ -150,77 +199,189 @@ The converter opens the HTML in a headless browser, screenshots each slide at 19
 
 ### Research paper talk *(conference, seminar, group talk)*
 
-Point Claude at your abstract + contributions. Structure:
-**Hook → Problem Formulation → Proposed Method → Experiments → Ablations → Conclusion**
+**Slide structure:** Hook → Problem Formulation → Proposed Method → Experiments → Ablations → Conclusion
 
-- 12–15 slides for 15-min talk; 25–35 slides for 30–45 min seminar
-- Recommended styles: `minimalist-clean`, `swiss-design`, `apple-minimal`, `dark-mode-pro`
+| Talk length | Target slides |
+|---|---|
+| 15 min (conference) | 12–15 |
+| 30–45 min (seminar/thesis) | 25–35 |
+
+Recommended styles: `minimalist-clean` · `swiss-design` · `apple-minimal` · `dark-mode-pro`
 
 ---
 
 ### Engineering demo *(10 min)*
 
-Describe your system and outcomes. Structure:
-**Motivation → System Overview → Key Decision → Demo / Results → Next Steps**
+**Slide structure:** Motivation → System Overview → Key Decision → Demo / Results → Next Steps
 
-- 8–12 slides
-- Recommended styles: `modern-saas-dark`, `terminal-code`, `dark-glow`
+- **8–12 slides**
+- Recommended styles: `modern-saas-dark` · `terminal-code` · `dark-glow`
 
 ---
 
 ### Engineering showcase *(20 min — comprehensive)*
 
-For faculty reviews, internship interviews, hackathon demos, or capstone presentations. Structure:
-**Problem → Overview → Tech Stack → Architecture Deep Dive → Key Decisions → Implementation Challenges → Demo / Results → Lessons Learned → Next Steps → Closing**
+For faculty reviews, internship/job interviews, hackathon demos, or capstone presentations.
 
-- 20–25 slides; up to 30 for complex systems
-- Claude will ask whether to explore the codebase for accurate architecture diagrams
-- Recommended styles: `cluely`, `dark-mode-pro`, `modern-saas-dark`, `modern-tech-startup`
+**Slide structure:** Problem → Overview → Tech Stack → Architecture Deep Dive → Key Decisions → Implementation Challenges → Demo / Results → Lessons Learned → Next Steps → Closing
+
+- **20–25 slides** (up to 30 for complex systems)
+- Claude will offer to explore your codebase for accurate architecture diagrams
+- Recommended styles: `cluely` · `dark-mode-pro` · `modern-saas-dark` · `modern-tech-startup`
 
 ---
 
 ### Business-technical presentation
 
-Mixed technical/non-technical audience. Structure:
-**Problem → Gaps in Existing Solutions → Your Solution → Evidence → Plan → Ask**
+Mixed technical/non-technical audience.
 
-- 15–20 slides for a 20-min presentation
-- Recommended styles: `apple-keynote-light`, `stripe`, `notion`
+**Slide structure:** Problem → Gaps in Existing Solutions → Your Solution → Evidence → Plan → Ask
+
+- **15–20 slides** for a 20-min presentation
+- Recommended styles: `apple-keynote-light` · `stripe` · `notion`
+
+---
+
+## Available Styles
+
+### Visual Styles
+
+| Slug | Character |
+|---|---|
+| `apple-keynote` | Dark Apple keynote — black stage, white type, blue accent |
+| `apple-keynote-light` | Light Apple keynote — clean, minimal, confident |
+| `apple-minimal` | Ultra-sparse — maximum whitespace, one idea per frame |
+| `minimalist-clean` | Swiss-influenced, nothing wasted |
+| `swiss-design` | Grid-strict, Helvetica, authoritative |
+| `editorial-magazine` | Serif editorial, ink-black contrast, red accent |
+| `dark-mode-pro` | Professional dark — slate palette, sky-blue accent |
+| `modern-saas-dark` | Zinc-black SaaS aesthetic (Vercel/Linear adjacent) |
+| `modern-tech-startup` | Light startup — indigo accent, clean sans-serif |
+| `dark-glow` | Dark with subtle radial glows and depth |
+| `glassmorphism` | Frosted glass cards over vivid gradient |
+| `cluely` | Deep purple + glass morphism |
+| `cluely-3d` | Spatial depth + 3D perspective cards |
+| `cluely-v2` | Cluely variant with alternate color treatment |
+| `terminal-code` | CLI aesthetic — green-on-black monospace |
+| `retro-synthwave` | 1980s synthwave grid — purple, pink, cyan |
+| `retro-game` | 8-bit pixel art retro game |
+| `retro-game-2` | Alternative pixel art, amber palette |
+| `cyberpunk-neon` | Dark with neon magenta and cyan |
+| `brutalist` | Raw, undecorated, deliberately confrontational |
+| `isometric-3d` | Flat isometric depth and geometric shapes |
+| `liquid-metal` | Chrome gradients, metallic surfaces |
+| `animated-gradients` | Flowing vivid gradient backgrounds |
+| `neumorphism` | Soft UI — extruded/indented surfaces |
+| `memphis-design` | 1980s bold geometric shapes and primary colors |
+| `hand-drawn-sketch` | Organic, chalk-on-paper warmth |
+| `simple-colors` | Bold flat colors, no gradients, direct |
+| `white-pops-of-color` | White base with selective bold accents |
+| `art-deco-luxury` | Black + gold Art Deco, ornate geometry |
+| `black-neon-glow` | Pure black + electric neon highlights |
+| `blue-background-modal` | Deep blue with layered card UI |
+| `modern-modal` | Light layered panels, subtle shadows |
+
+### Brand Styles
+
+| Slug | Character |
+|---|---|
+| `stripe` | White canvas, navy headings, purple accent, multi-layer shadows |
+| `apple` | Black stage, blue CTA pills, SF Pro typography |
+| `linear` | Near-black, lavender accent, dense dark panels |
+| `notion` | White, purple CTA, pastel-tinted feature cards |
+| `vercel` | Pure black/white monochrome, workflow accent badges |
+| `figma` | White + black editorial with bold pastel color blocks |
+| `cursor` | Warm cream, orange accent, editorial feel |
+| `claude` | Warm cream, coral accent, serif display type |
+| `spotify` | Near-black, Spotify green accent, pill-shaped everything |
+| `airbnb` | White, coral accent, soft rounded cards |
+| `nvidia` | Black, NVIDIA green, sharp zero-radius rectangles |
+| `ebay` | White, blue primary, 4-color logo identity |
+
+> Open `styles/<slug>/style.html` in your browser to see a live demo of any style before using it.
+
+---
+
+## Extract Any Brand Live (Firecrawl Setup)
+
+Firecrawl is a web scraping API that Claude uses to pull a brand's design DNA — colors, fonts, logo, component styles — from any public URL in one call. You need this only if you want to create a slide deck using a brand that isn't already in `styles/`.
+
+### 1. Create a free Firecrawl account
+
+Go to **[firecrawl.dev](https://firecrawl.dev)** and sign up. The free tier gives you ~500 scrapes/month — more than enough for extracting brand styles.
+
+### 2. Copy your API key
+
+After signing in, go to your dashboard → **API Keys** → copy the key. It starts with `fc-`.
+
+### 3. Add Firecrawl as an MCP to Claude Code
+
+Run this command in your terminal. Replace `fc-YOUR_KEY_HERE` with your actual key:
+
+```bash
+claude mcp add --scope user firecrawl \
+  -e FIRECRAWL_API_KEY=fc-YOUR_KEY_HERE \
+  -- npx -y firecrawl-mcp
+```
+
+> **What `--scope user` does:** Adds the MCP to your global Claude Code config (`~/.claude/`), so it's available in every project — not just this one. You only need to run this once.
+
+### 4. Verify it's connected
+
+```bash
+claude mcp list
+```
+
+You should see `firecrawl` in the list with status `connected`.
+
+### 5. Use it
+
+Now tell Claude:
+
+```
+Use the presentation builder skill.
+Style: extract from https://stripe.com
+Content: scripts/my-notes.md
+```
+
+Claude will scrape the URL, extract the brand DNA, save it as `styles/stripe/style.md`, and use it to generate your slides. The extracted style is saved permanently — next time you can just say `Style: stripe`.
+
+> **Good URLs to scrape:** Marketing homepages and landing pages work best. Avoid dashboards or app interiors — those have less brand personality and more functional UI chrome.
 
 ---
 
 ## Creating a Custom Style
 
-See `template_creation/README.md` for the full pipeline. Quick version:
-
-1. Paste a URL — Claude uses Firecrawl to extract brand DNA (colors, fonts, components)
-2. Saves the result as `styles/<slug>/style.md`
-3. Optionally generates a `style.html` demo
-4. Reference the new style by its slug in future presentations
+See `template_creation/README.md` for the full pipeline. The Firecrawl route above is the fastest — one URL → one saved style. Alternatively, you can manually fill in `template_creation/_style-template.md` with any colors and fonts you choose.
 
 ---
 
 ## Design Principles
 
-Every generated presentation is validated against 20 research-backed rules from Tufte, Bringhurst, Reynolds, Duarte, WCAG, Miller's Law, and Gestalt theory. The full field manual with numeric thresholds is at `principles/design-principles.md`.
+Every generated presentation is validated against 20 research-backed design rules before any HTML is emitted. Sources include Tufte, Bringhurst, Reynolds, Duarte, WCAG 2.2, Miller's Law, and Gestalt theory.
 
-Key rules applied to every slide:
-- One idea per slide (max 10-word headline + one supporting block)
-- ≥40% whitespace on content slides, ≥60% on hero slides
-- Body ≥24px, title ≥48px — readable on projector at distance
-- 8pt spacing grid — all margins and gaps are multiples of 8
-- 60-30-10 color split — one accent color per slide, never two
-- WCAG 7:1 contrast target for projector resilience
+The full field manual with numeric thresholds is at `principles/design-principles.md`. A few key rules:
+
+- **One idea per slide** — max 10-word headline + one supporting block
+- **≥40% whitespace** on content slides; ≥60% on hero/title slides
+- **Body ≥24px, title ≥48px** — readable on a projector from row 10
+- **8pt spacing grid** — every margin and gap is a multiple of 8px
+- **One accent color per slide** — never two; multiple accents = no accent
+- **WCAG 7:1 contrast target** — projectors wash out contrast by 30–50%
 
 ---
 
 ## Cloning & Reuse
 
-`scripts/`, `assets/`, and `final_slides/` are gitignored — they stay local to each user. Clone the repo into any project directory, add your content to `scripts/`, and generate.
+`scripts/`, `assets/`, and `final_slides/` are gitignored — they stay local to each user. Clone anywhere, add your content, and generate.
 
 ```bash
-git clone <repo-url> presentation_builder
-cd presentation_builder
-# Add scripts/my-notes.md
+git clone <repo-url> my-presentations
+cd my-presentations
+
+# Add your content
+echo "My research abstract..." > scripts/my-paper.md
+
 # Open Claude Code and invoke the skill
+claude
 ```
