@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude — Demo Presentation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; background: #faf9f5; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.5s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #faf9f5;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #cc785c; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-label {
+    font-family: system-ui, sans-serif;
+    font-size: 12px; font-weight: 500; color: #cc785c;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    margin-bottom: 20px;
+  }
+  .s1-headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(48px, 7vw, 88px); font-weight: 400;
+    color: #141413; line-height: 1.05;
+    text-align: center; margin-bottom: 18px; letter-spacing: -0.01em;
+  }
+  .s1-sub {
+    font-family: system-ui, sans-serif;
+    font-size: 18px; font-weight: 400; color: #3d3d3a;
+    text-align: center; max-width: 500px; line-height: 1.65;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #cc785c; color: #ffffff;
+    font-family: system-ui, sans-serif;
+    font-size: 15px; font-weight: 500;
+    padding: 12px 26px; border-radius: 12px;
+    text-decoration: none; cursor: pointer;
+    letter-spacing: 0.01em;
+  }
+
+  /* Slide 2 — Feature Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; width: 100%; max-width: 920px; margin-top: 36px;
+  }
+  .feature-card {
+    background: #efe9de; border: 1px solid #e6dfd8;
+    border-left: 3px solid #cc785c;
+    border-radius: 12px; padding: 28px 22px;
+  }
+  .feature-card-emoji { font-size: 26px; margin-bottom: 14px; }
+  .feature-card h3 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 20px; font-weight: 400; color: #141413;
+    margin-bottom: 10px;
+  }
+  .feature-card p {
+    font-family: system-ui, sans-serif;
+    font-size: 14px; color: #3d3d3a; line-height: 1.6;
+  }
+  .s2-headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(28px, 3.2vw, 44px); font-weight: 400;
+    color: #141413; text-align: center; letter-spacing: -0.01em;
+  }
+  .s2-sub {
+    font-family: system-ui, sans-serif;
+    font-size: 16px; color: #3d3d3a; text-align: center; margin-top: 6px;
+  }
+
+  /* Slide 3 — Capability Bars */
+  .bars-wrap { width: 100%; max-width: 640px; margin-top: 36px; }
+  .bar-section { margin-bottom: 28px; }
+  .bar-label {
+    font-family: system-ui, sans-serif;
+    font-size: 14px; font-weight: 500; color: #141413;
+    margin-bottom: 8px; display: flex; justify-content: space-between;
+  }
+  .bar-label span { color: #cc785c; font-weight: 600; }
+  .bar-track {
+    background: #e6dfd8; border-radius: 6px; height: 10px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; background: #cc785c; border-radius: 6px;
+  }
+  .bar-caption {
+    font-family: system-ui, sans-serif;
+    font-size: 12px; color: #3d3d3a; margin-top: 5px; text-align: right;
+  }
+  .s3-headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(28px, 3.2vw, 44px); font-weight: 400;
+    color: #141413; text-align: center; letter-spacing: -0.01em;
+  }
+  .s3-sub {
+    font-family: system-ui, sans-serif;
+    font-size: 15px; color: #3d3d3a; text-align: center; margin-top: 6px;
+  }
+  .balance-note {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px; font-style: italic; color: #cc785c;
+    text-align: center; margin-top: 20px;
+  }
+
+  /* Slide 4 — Closing */
+  .s4-mark {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #efe9de; border: 2px solid #cc785c;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; margin: 0 auto 24px;
+  }
+  .s4-headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(32px, 4vw, 52px); font-weight: 400;
+    color: #141413; text-align: center; letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+  .s4-sub {
+    font-family: system-ui, sans-serif;
+    font-size: 17px; color: #3d3d3a; text-align: center;
+    max-width: 440px; line-height: 1.6; margin-bottom: 32px;
+  }
+  .s4-link {
+    font-family: system-ui, sans-serif;
+    font-size: 18px; font-weight: 500; color: #cc785c; text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-label">Anthropic</div>
+  <h1 class="s1-headline">Meet Claude</h1>
+  <p class="s1-sub">An AI assistant that is genuinely helpful, harmless, and honest. Built to reason carefully, communicate naturally, and work alongside you.</p>
+  <a class="cta-pill" href="#">Start a conversation →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <h2 class="s2-headline">Thoughtfully designed at every level</h2>
+  <p class="s2-sub">Three core principles that define everything Claude does</p>
+  <div class="cards-grid">
+    <div class="feature-card">
+      <div class="feature-card-emoji">🛡️</div>
+      <h3>Safety</h3>
+      <p>Built from the ground up with Constitutional AI and RLHF, Claude actively avoids harmful outputs and is transparent about its limitations.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-emoji">🧠</div>
+      <h3>Intelligence</h3>
+      <p>Advanced reasoning across coding, math, writing, and analysis. Claude handles nuanced, multi-step problems that stump other models.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-emoji">💬</div>
+      <h3>Personality</h3>
+      <p>Warm, curious, and direct — Claude communicates with genuine character. It asks clarifying questions, shares its perspective, and adapts to you.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Capability Bars -->
+<div class="slide">
+  <h2 class="s3-headline">Capability and safety in balance</h2>
+  <p class="s3-sub">The two aren't opposites — with Claude, they reinforce each other</p>
+  <div class="bars-wrap">
+    <div class="bar-section">
+      <div class="bar-label">Reasoning &amp; Intelligence <span>94%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:94%"></div></div>
+      <div class="bar-caption">Frontier-level on MMLU, HumanEval, MATH benchmarks</div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label">Safety &amp; Alignment <span>97%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:97%"></div></div>
+      <div class="bar-caption">Trained with Constitutional AI for reliable, honest behavior</div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label">Helpfulness &amp; Nuance <span>91%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:91%"></div></div>
+      <div class="bar-caption">Adapts communication style and depth to each conversation</div>
+    </div>
+  </div>
+  <p class="balance-note">"The goal is to be genuinely helpful without being harmful or dishonest."</p>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <div class="s4-mark">✦</div>
+  <h1 class="s4-headline">Ready to meet Claude?</h1>
+  <p class="s4-sub">Thoughtful AI for the work that matters most — try it free, no setup required.</p>
+  <a class="s4-link" href="https://claude.ai">claude.ai →</a>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

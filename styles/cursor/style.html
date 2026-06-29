@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor — Demo Presentation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: system-ui, 'Helvetica Neue', Arial, sans-serif; background: #f7f7f4; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #f7f7f4;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #26251e; opacity: 0.2; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-label {
+    font-size: 12px; font-weight: 600; color: #f54e00;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 22px;
+  }
+  .s1-headline {
+    font-size: clamp(40px, 5.5vw, 68px); font-weight: 700;
+    color: #26251e; line-height: 1.08;
+    text-align: center; margin-bottom: 18px; letter-spacing: -0.03em;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 400; color: #5a5852;
+    text-align: center; max-width: 480px; line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #f54e00; color: #ffffff;
+    font-size: 15px; font-weight: 600;
+    padding: 12px 26px; border-radius: 8px;
+    text-decoration: none; cursor: pointer;
+  }
+
+  /* Slide 2 — Feature Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; width: 100%; max-width: 900px; margin-top: 36px;
+  }
+  .feature-card {
+    background: #ffffff; border: 1.5px solid #e6e5e0;
+    border-radius: 8px; padding: 28px 22px;
+  }
+  .card-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #f54e00; margin-bottom: 16px;
+  }
+  .feature-card h3 {
+    font-size: 17px; font-weight: 600; color: #26251e;
+    margin-bottom: 10px;
+  }
+  .feature-card p { font-size: 14px; color: #5a5852; line-height: 1.6; }
+  .code-chip {
+    display: inline-block; margin-top: 12px;
+    font-size: 12px; font-family: 'SF Mono', 'Monaco', monospace;
+    background: #f7f7f4; border: 1px solid #e6e5e0;
+    color: #f54e00; padding: 3px 8px; border-radius: 4px;
+  }
+  .s2-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #26251e; text-align: center; letter-spacing: -0.02em;
+  }
+  .s2-sub { font-size: 15px; color: #5a5852; text-align: center; margin-top: 6px; }
+
+  /* Slide 3 — Comparison */
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; width: 100%; max-width: 820px; margin-top: 36px;
+  }
+  .compare-card { border-radius: 8px; padding: 28px 24px; }
+  .compare-card.without {
+    background: #ffffff; border: 1.5px solid #e6e5e0;
+  }
+  .compare-card.with {
+    background: #ffffff; border: 2px solid #f54e00;
+  }
+  .compare-card h3 {
+    font-size: 16px; font-weight: 600; color: #26251e;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid #e6e5e0;
+  }
+  .compare-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; color: #5a5852; line-height: 1.5; }
+  .s3-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #26251e; text-align: center; letter-spacing: -0.02em;
+  }
+
+  /* Slide 4 — Closing */
+  .s4-cursor {
+    width: 36px; height: 36px; position: relative; margin: 0 auto 24px;
+  }
+  .s4-cursor-shape {
+    width: 0; height: 0;
+    border-left: 14px solid #f54e00;
+    border-bottom: 14px solid transparent;
+    border-top: 22px solid #f54e00;
+    border-right: 0;
+  }
+  .s4-headline {
+    font-size: clamp(36px, 4.5vw, 58px); font-weight: 700;
+    color: #26251e; text-align: center; letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .s4-sub {
+    font-size: 17px; color: #5a5852; text-align: center;
+    max-width: 440px; line-height: 1.6; margin-bottom: 32px;
+  }
+  .s4-link { font-size: 18px; font-weight: 600; color: #f54e00; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-label">AI-Powered Development</div>
+  <h1 class="s1-headline">The AI Code Editor</h1>
+  <p class="s1-sub">Cursor is the editor built for pair-programming with AI. Write, edit, and debug code in natural language — 10× faster than before.</p>
+  <a class="cta-pill" href="#">Try Cursor →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <h2 class="s2-headline">How Cursor changes the way you code</h2>
+  <p class="s2-sub">Three features that will make you wonder how you ever worked without them</p>
+  <div class="cards-grid">
+    <div class="feature-card">
+      <div class="card-dot"></div>
+      <h3>Tab Completion</h3>
+      <p>Predict your next edit — not just the next word. Cursor understands your intent and completes entire multi-line changes.</p>
+      <span class="code-chip">Tab →</span>
+    </div>
+    <div class="feature-card">
+      <div class="card-dot"></div>
+      <h3>Natural Language Editing</h3>
+      <p>Select any block of code and describe the change in plain English. Cursor rewrites it instantly, precisely, and correctly.</p>
+      <span class="code-chip">Cmd+K</span>
+    </div>
+    <div class="feature-card">
+      <div class="card-dot"></div>
+      <h3>Codebase Chat</h3>
+      <p>Ask questions about your entire codebase. Cursor reads every file and gives you accurate, context-aware answers instantly.</p>
+      <span class="code-chip">Cmd+L</span>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Comparison -->
+<div class="slide">
+  <h2 class="s3-headline">A day of coding — transformed</h2>
+  <div class="comparison-grid">
+    <div class="compare-card without">
+      <h3>❌ Without Cursor</h3>
+      <div class="compare-item"><span>🔴</span><span>Manually writing boilerplate for every new component</span></div>
+      <div class="compare-item"><span>🔴</span><span>Searching Stack Overflow for the right API syntax</span></div>
+      <div class="compare-item"><span>🔴</span><span>Hunting through dozens of files to understand the codebase</span></div>
+      <div class="compare-item"><span>🔴</span><span>Copy-pasting and adapting code from documentation</span></div>
+      <div class="compare-item"><span>🔴</span><span>Context-switching breaks your flow every 10 minutes</span></div>
+    </div>
+    <div class="compare-card with">
+      <h3>🟠 With Cursor</h3>
+      <div class="compare-item"><span>✅</span><span>Tab auto-generates full components from a comment</span></div>
+      <div class="compare-item"><span>✅</span><span>Ask in natural language, get production-ready code instantly</span></div>
+      <div class="compare-item"><span>✅</span><span>Codebase chat answers any architecture question in seconds</span></div>
+      <div class="compare-item"><span>✅</span><span>AI adapts code to your project's exact patterns and style</span></div>
+      <div class="compare-item"><span>✅</span><span>Stay in flow — the editor thinks like a senior dev alongside you</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <h1 class="s4-headline">Ready to build faster?</h1>
+  <p class="s4-sub">Join hundreds of thousands of engineers who've made AI-first development their new normal.</p>
+  <a class="s4-link" href="https://cursor.com">cursor.com →</a>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

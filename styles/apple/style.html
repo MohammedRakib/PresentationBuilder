@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple — Demo Presentation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif; background: #000000; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.5s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #000000;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #f5f5f7; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-eyebrow {
+    font-size: 19px; font-weight: 400; color: #86868b;
+    letter-spacing: 0.02em; margin-bottom: 16px; text-align: center;
+  }
+  .s1-headline {
+    font-size: clamp(52px, 7vw, 88px); font-weight: 700;
+    color: #f5f5f7; line-height: 1.05;
+    text-align: center; margin-bottom: 18px;
+    letter-spacing: -0.02em;
+  }
+  .s1-sub {
+    font-size: 19px; font-weight: 400; color: #86868b;
+    text-align: center; max-width: 520px; line-height: 1.55;
+    margin-bottom: 40px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #0071e3; color: #ffffff;
+    font-size: 17px; font-weight: 400;
+    padding: 12px 24px; border-radius: 980px;
+    text-decoration: none; letter-spacing: 0;
+    cursor: pointer;
+  }
+
+  /* Slide 2 — Feature Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; width: 100%; max-width: 960px; margin-top: 40px;
+  }
+  .feature-card {
+    background: #1d1d1f; border-radius: 18px;
+    padding: 36px 28px;
+  }
+  .feature-card-emoji { font-size: 32px; margin-bottom: 20px; }
+  .feature-card h3 {
+    font-size: 21px; font-weight: 600; color: #f5f5f7;
+    margin-bottom: 10px; letter-spacing: -0.01em;
+  }
+  .feature-card .stat {
+    font-size: 34px; font-weight: 700; color: #0071e3;
+    letter-spacing: -0.02em; margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 14px; font-weight: 400; color: #86868b; line-height: 1.5; }
+  .s2-headline {
+    font-size: clamp(28px, 3.2vw, 44px); font-weight: 700;
+    color: #f5f5f7; text-align: center;
+    letter-spacing: -0.02em;
+  }
+
+  /* Slide 3 — Comparison */
+  .comparison-wrap { width: 100%; max-width: 860px; margin-top: 36px; }
+  .compare-row { margin-bottom: 28px; }
+  .compare-label {
+    display: flex; justify-content: space-between;
+    font-size: 14px; color: #86868b; margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .bar-track {
+    background: #1d1d1f; border-radius: 4px; height: 8px;
+    position: relative; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; background: #0071e3;
+    border-radius: 4px; transition: width 0.8s ease;
+  }
+  .bar-old { background: #3a3a3c; }
+  .compare-title {
+    font-size: 17px; font-weight: 600; color: #f5f5f7;
+    margin-bottom: 4px; letter-spacing: -0.01em;
+  }
+  .s3-headline {
+    font-size: clamp(28px, 3.2vw, 44px); font-weight: 700;
+    color: #f5f5f7; text-align: center; margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .s3-sub { font-size: 17px; color: #86868b; text-align: center; }
+
+  /* Slide 4 — Closing */
+  .apple-logo { font-size: 64px; margin-bottom: 24px; color: #f5f5f7; line-height: 1; }
+  .s4-headline {
+    font-size: clamp(28px, 3.5vw, 48px); font-weight: 400;
+    color: #f5f5f7; text-align: center; margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  .s4-link { font-size: 17px; font-weight: 400; color: #0071e3; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-eyebrow">Introducing</div>
+  <h1 class="s1-headline">iPhone 16 Pro</h1>
+  <p class="s1-sub">A18 Pro chip. Built for Apple Intelligence. The most personal intelligence system ever on a smartphone.</p>
+  <a class="cta-pill" href="#">Learn more →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <h2 class="s2-headline">Pro beyond compare</h2>
+  <div class="cards-grid">
+    <div class="feature-card">
+      <div class="feature-card-emoji">⚡</div>
+      <div class="stat">A18 Pro</div>
+      <h3>Chip Performance</h3>
+      <p>Up to 4× faster than A14. Neural Engine handles 35 trillion operations per second for on-device AI.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-emoji">📷</div>
+      <div class="stat">48MP</div>
+      <h3>Pro Camera System</h3>
+      <p>48MP Fusion camera. 5× telephoto. 4K 120fps Dolby Vision. Capture what no other camera can.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-emoji">🔋</div>
+      <div class="stat">33 hrs</div>
+      <h3>All-Day Battery</h3>
+      <p>Our longest battery life ever in an iPhone Pro. Up to 33 hours of video playback on a single charge.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Comparison -->
+<div class="slide">
+  <h2 class="s3-headline">A leap ahead</h2>
+  <p class="s3-sub">iPhone 16 Pro vs iPhone 15 Pro</p>
+  <div class="comparison-wrap">
+    <div class="compare-row">
+      <div class="compare-title">CPU Performance</div>
+      <div class="compare-label"><span>iPhone 15 Pro</span><span>iPhone 16 Pro</span></div>
+      <div class="bar-track" style="margin-bottom:8px"><div class="bar-fill bar-old" style="width:58%"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:92%"></div></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-title">GPU Rendering Speed</div>
+      <div class="compare-label"><span>iPhone 15 Pro</span><span>iPhone 16 Pro</span></div>
+      <div class="bar-track" style="margin-bottom:8px"><div class="bar-fill bar-old" style="width:50%"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-title">Neural Engine (AI Tasks)</div>
+      <div class="compare-label"><span>iPhone 15 Pro</span><span>iPhone 16 Pro</span></div>
+      <div class="bar-track" style="margin-bottom:8px"><div class="bar-fill bar-old" style="width:45%"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <div class="apple-logo">⌘</div>
+  <h1 class="s4-headline">Designed by Apple in California.</h1>
+  <p style="font-size:16px; color:#86868b; text-align:center; margin-bottom:32px; max-width:440px;">Every detail considered. Every technology integrated. Built to be the best iPhone we have ever made.</p>
+  <a class="s4-link" href="https://apple.com">apple.com</a>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

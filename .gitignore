@@ -31,5 +31,12 @@ yarn-error.log*
 # Logs
 *.log
 
-# Optional: Keep private scripts
-# scripts/private/
+# Generated presentations (keep folder, ignore content)
+final_slides/*
+!final_slides/.gitkeep
+
+# User scripts (keep folder, ignore content so users add their own)
+scripts/*
+
+# User assets (keep folder, ignore content)
+assets/*

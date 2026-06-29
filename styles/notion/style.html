@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion — Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: #ffffff; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #ffffff;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #5645d4; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-emoji { font-size: 52px; margin-bottom: 20px; }
+  .s1-headline {
+    font-size: clamp(36px, 5vw, 62px); font-weight: 700;
+    color: #1a1a1a; line-height: 1.1; text-align: center;
+    max-width: 640px; margin-bottom: 18px; letter-spacing: -0.02em;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 400; color: #787671;
+    text-align: center; max-width: 480px; line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #5645d4; color: #ffffff;
+    font-size: 15px; font-weight: 500;
+    padding: 11px 24px; border-radius: 6px;
+    text-decoration: none; cursor: pointer;
+  }
+
+  /* Slide 2 — Pastel Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; width: 100%; max-width: 900px; margin-top: 36px;
+  }
+  .feature-card {
+    border-radius: 6px; padding: 28px 22px;
+  }
+  .feature-card-emoji { font-size: 28px; margin-bottom: 14px; }
+  .feature-card h3 {
+    font-size: 17px; font-weight: 600; color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 14px; color: #787671; line-height: 1.55; }
+  .card-wiki { background: #dcecfa; }
+  .card-projects { background: #d9f3e1; }
+  .card-docs { background: #fde0ec; }
+  .s2-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #1a1a1a; text-align: center; letter-spacing: -0.02em;
+  }
+  .s2-sub { font-size: 16px; color: #787671; text-align: center; margin-top: 6px; }
+
+  /* Slide 3 — Comparison */
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; width: 100%; max-width: 820px; margin-top: 36px;
+  }
+  .compare-card { border-radius: 6px; padding: 30px 26px; }
+  .compare-card.old { background: #f6f5f4; border: 1px solid #e8e6e3; }
+  .compare-card.new { background: #f6f5f4; border: 2px solid #5645d4; }
+  .compare-card h3 {
+    font-size: 17px; font-weight: 600; color: #1a1a1a;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid #e8e6e3;
+  }
+  .compare-card h3 span { font-size: 13px; font-weight: 500; padding: 3px 8px; border-radius: 4px; margin-left: 8px; }
+  .old-badge { background: rgba(239,68,68,0.1); color: #dc2626; }
+  .new-badge { background: rgba(86,69,212,0.1); color: #5645d4; }
+  .compare-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 14px; color: #3f3f3f; }
+  .compare-item .icon { font-size: 16px; }
+  .s3-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #1a1a1a; text-align: center; letter-spacing: -0.02em;
+  }
+
+  /* Slide 4 — Closing */
+  .s4-emoji { font-size: 48px; margin-bottom: 22px; }
+  .s4-headline {
+    font-size: clamp(32px, 4vw, 52px); font-weight: 700;
+    color: #1a1a1a; text-align: center; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .s4-sub {
+    font-size: 17px; color: #787671; text-align: center;
+    margin-bottom: 36px; max-width: 440px; line-height: 1.6;
+  }
+  .s4-cta {
+    display: inline-block;
+    background: #5645d4; color: #ffffff;
+    font-size: 16px; font-weight: 500;
+    padding: 13px 30px; border-radius: 6px;
+    text-decoration: none; cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .s4-note { font-size: 13px; color: #787671; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-emoji">📝</div>
+  <h1 class="s1-headline">One workspace. Every team.</h1>
+  <p class="s1-sub">Write, plan, share, and get organized — all in one place. The connected workspace where better, faster work happens.</p>
+  <a class="cta-pill" href="#">Get Notion free →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <h2 class="s2-headline">Built for every type of work</h2>
+  <p class="s2-sub">From knowledge bases to project tracking</p>
+  <div class="cards-grid">
+    <div class="feature-card card-wiki">
+      <div class="feature-card-emoji">📚</div>
+      <h3>Wiki</h3>
+      <p>Build a company knowledge base everyone actually uses. Pages, nested docs, and real-time collaboration.</p>
+    </div>
+    <div class="feature-card card-projects">
+      <div class="feature-card-emoji">✅</div>
+      <h3>Projects</h3>
+      <p>Track initiatives from idea to launch with custom views — boards, tables, timelines, and calendars.</p>
+    </div>
+    <div class="feature-card card-docs">
+      <div class="feature-card-emoji">📄</div>
+      <h3>Docs</h3>
+      <p>Write beautiful documents with embeds, mentions, and AI-powered suggestions — all collaborative by default.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Comparison -->
+<div class="slide">
+  <h2 class="s3-headline">Replace the chaos</h2>
+  <div class="comparison-grid">
+    <div class="compare-card old">
+      <h3>Scattered Tools <span class="old-badge">Before</span></h3>
+      <div class="compare-item"><span class="icon">❌</span><span>Docs in Google Drive, tasks in Asana, notes in Slack, plans in email</span></div>
+      <div class="compare-item"><span class="icon">❌</span><span>Context switching between 6+ apps daily</span></div>
+      <div class="compare-item"><span class="icon">❌</span><span>Knowledge gets lost in DMs and closed tabs</span></div>
+      <div class="compare-item"><span class="icon">❌</span><span>Onboarding takes weeks to explain where things live</span></div>
+    </div>
+    <div class="compare-card new">
+      <h3>Notion <span class="new-badge">After</span></h3>
+      <div class="compare-item"><span class="icon">✅</span><span>Everything in one searchable, connected workspace</span></div>
+      <div class="compare-item"><span class="icon">✅</span><span>One tool for docs, tasks, wikis, and databases</span></div>
+      <div class="compare-item"><span class="icon">✅</span><span>Team knowledge is always one search away</span></div>
+      <div class="compare-item"><span class="icon">✅</span><span>New hires productive on day one</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <div class="s4-emoji">🚀</div>
+  <h1 class="s4-headline">Get started free</h1>
+  <p class="s4-sub">Join millions of teams using Notion to do their best work — no credit card required.</p>
+  <a class="s4-cta" href="#">Start with Notion free →</a>
+  <p class="s4-note">notion.com · Free plan available · Teams &amp; Enterprise plans scale with you</p>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

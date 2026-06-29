@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA — Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; background: #000000; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #000000;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #76b900; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-brand {
+    font-size: 13px; font-weight: 700; color: #76b900;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    margin-bottom: 24px;
+  }
+  .s1-headline {
+    font-size: clamp(38px, 5.5vw, 70px); font-weight: 800;
+    color: #ffffff; line-height: 1.08;
+    text-align: center; max-width: 760px;
+    margin-bottom: 20px; letter-spacing: -0.02em;
+  }
+  .s1-sub {
+    font-size: 17px; font-weight: 300; color: #a7a7a7;
+    text-align: center; max-width: 500px; line-height: 1.65;
+    margin-bottom: 36px;
+  }
+  .cta-rect {
+    display: inline-block;
+    background: #76b900; color: #000000;
+    font-size: 14px; font-weight: 700;
+    padding: 12px 28px; border-radius: 0;
+    text-decoration: none; cursor: pointer;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  /* Slide 2 — Dark Panels */
+  .panels-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; width: 100%; max-width: 900px; margin-top: 36px;
+    background: #333333;
+  }
+  .feature-panel {
+    background: #1a1a1a; padding: 0; overflow: hidden;
+  }
+  .panel-green-top { height: 2px; background: #76b900; }
+  .panel-body { padding: 28px 22px; }
+  .panel-body h3 {
+    font-size: 18px; font-weight: 700; color: #ffffff;
+    margin-bottom: 12px; letter-spacing: -0.01em;
+  }
+  .panel-body p { font-size: 13px; font-weight: 300; color: #a7a7a7; line-height: 1.6; }
+  .panel-tag {
+    display: inline-block; margin-top: 14px;
+    font-size: 11px; font-weight: 600; color: #76b900;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid #76b900; padding: 3px 8px;
+  }
+  .s2-headline {
+    font-size: clamp(24px, 2.8vw, 38px); font-weight: 700;
+    color: #ffffff; text-align: center; letter-spacing: -0.02em;
+  }
+  .s2-sub { font-size: 15px; font-weight: 300; color: #a7a7a7; text-align: center; margin-top: 6px; }
+
+  /* Slide 3 — Metrics */
+  .metrics-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; width: 100%; max-width: 900px; margin-top: 36px;
+    background: #333333;
+  }
+  .stat-card {
+    background: #1a1a1a; padding: 40px 24px; text-align: center;
+  }
+  .stat-value {
+    font-size: 40px; font-weight: 800; color: #76b900;
+    letter-spacing: -0.03em; line-height: 1; margin-bottom: 10px;
+  }
+  .stat-label { font-size: 13px; font-weight: 400; color: #a7a7a7; line-height: 1.5; }
+  .stat-sub { font-size: 11px; color: #555555; margin-top: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .s3-headline {
+    font-size: clamp(24px, 2.8vw, 38px); font-weight: 700;
+    color: #ffffff; text-align: center; letter-spacing: -0.02em;
+  }
+  .s3-sub { font-size: 15px; font-weight: 300; color: #a7a7a7; text-align: center; margin-top: 6px; }
+
+  /* Slide 4 — Closing */
+  .s4-brand {
+    font-size: 11px; font-weight: 700; color: #76b900;
+    text-transform: uppercase; letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+  .s4-headline {
+    font-size: clamp(36px, 5vw, 64px); font-weight: 800;
+    color: #ffffff; text-align: center; letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .s4-sub {
+    font-size: 16px; font-weight: 300; color: #a7a7a7;
+    text-align: center; margin-bottom: 36px;
+  }
+  .s4-link { font-size: 16px; font-weight: 600; color: #76b900; text-decoration: none; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-brand">NVIDIA</div>
+  <h1 class="s1-headline">Accelerating the World's AI</h1>
+  <p class="s1-sub">From the data center to autonomous vehicles to scientific discovery — NVIDIA computing is the engine of the AI era.</p>
+  <a class="cta-rect" href="#">Learn More →</a>
+</div>
+
+<!-- Slide 2: Feature Panels -->
+<div class="slide">
+  <h2 class="s2-headline">Full-stack AI across every industry</h2>
+  <p class="s2-sub">Hardware, software, and platforms — designed to work together</p>
+  <div class="panels-grid">
+    <div class="feature-panel">
+      <div class="panel-green-top"></div>
+      <div class="panel-body">
+        <h3>Data Center</h3>
+        <p>H100 and H200 Tensor Core GPUs power the world's most demanding AI training and inference workloads at cloud scale.</p>
+        <span class="panel-tag">H100 · H200 · Grace</span>
+      </div>
+    </div>
+    <div class="feature-panel">
+      <div class="panel-green-top"></div>
+      <div class="panel-body">
+        <h3>Gaming</h3>
+        <p>GeForce RTX 4090 brings real-time ray tracing and DLSS 3 to games, delivering cinema-quality visuals at impossible frame rates.</p>
+        <span class="panel-tag">GeForce RTX 40</span>
+      </div>
+    </div>
+    <div class="feature-panel">
+      <div class="panel-green-top"></div>
+      <div class="panel-body">
+        <h3>Automotive</h3>
+        <p>DRIVE Orin powers the next generation of autonomous vehicles with real-time 360° perception and AI-based decision making.</p>
+        <span class="panel-tag">DRIVE Orin · Thor</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Metrics -->
+<div class="slide">
+  <h2 class="s3-headline">Performance at a different scale</h2>
+  <p class="s3-sub">The numbers that define computational leadership</p>
+  <div class="metrics-grid">
+    <div class="stat-card">
+      <div class="stat-value">1000×</div>
+      <div class="stat-label">AI Training Speed</div>
+      <div class="stat-sub">vs CPU-only clusters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">RTX 4090</div>
+      <div class="stat-label">World's Fastest<br>Consumer GPU</div>
+      <div class="stat-sub">82 teraflops FP32</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">H100</div>
+      <div class="stat-label">Tensor Core Architecture</div>
+      <div class="stat-sub">4th gen · 3958 TFLOPS</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <div class="s4-brand">NVIDIA</div>
+  <h1 class="s4-headline">The AI supercomputer company.</h1>
+  <p class="s4-sub">Every breakthrough in AI runs on NVIDIA.</p>
+  <a class="s4-link" href="https://nvidia.com">nvidia.com →</a>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figma — Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: #ffffff; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #ffffff;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #000000; opacity: 0.25; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-headline {
+    font-size: clamp(36px, 5vw, 64px); font-weight: 700;
+    color: #000000; line-height: 1.1; text-align: center;
+    max-width: 640px; margin-bottom: 18px; letter-spacing: -0.03em;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 400; color: #555555;
+    text-align: center; max-width: 480px; line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #000000; color: #ffffff;
+    font-size: 15px; font-weight: 600;
+    padding: 12px 26px; border-radius: 12px;
+    text-decoration: none; cursor: pointer;
+  }
+  .figma-circles {
+    display: flex; gap: 0; margin-bottom: 30px;
+  }
+  .fc { width: 24px; height: 24px; border-radius: 50%; }
+  .fc1 { background: #f24e1e; }
+  .fc2 { background: #a259ff; margin-left: -6px; }
+  .fc3 { background: #1abcfe; margin-left: -6px; }
+  .fc4 { background: #0acf83; margin-left: -6px; }
+
+  /* Slide 2 — Pastel Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; width: 100%; max-width: 1000px; margin-top: 36px;
+  }
+  .pastel-card {
+    border-radius: 12px; padding: 28px 20px;
+  }
+  .pastel-card .card-emoji { font-size: 28px; margin-bottom: 14px; display: block; }
+  .pastel-card h3 { font-size: 16px; font-weight: 600; color: #000000; margin-bottom: 8px; }
+  .pastel-card p { font-size: 13px; color: #444444; line-height: 1.55; }
+  .card-lime { background: #dceeb1; }
+  .card-lavender { background: #c5b0f4; }
+  .card-mint { background: #c8e6cd; }
+  .card-pink { background: #efd4d4; }
+  .s2-headline {
+    font-size: clamp(24px, 2.8vw, 38px); font-weight: 700;
+    color: #000000; text-align: center; letter-spacing: -0.02em;
+  }
+
+  /* Slide 3 — Comparison */
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; width: 100%; max-width: 820px; margin-top: 36px;
+  }
+  .compare-card { border-radius: 12px; padding: 28px 24px; }
+  .compare-card.before { background: #ffffff; border: 1.5px solid #e0e0e0; }
+  .compare-card.after { background: #dceeb1; border: 1.5px solid #b8d880; }
+  .compare-card h3 {
+    font-size: 16px; font-weight: 600; color: #000000;
+    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .compare-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; color: #333333; line-height: 1.5; }
+  .s3-headline {
+    font-size: clamp(24px, 2.8vw, 38px); font-weight: 700;
+    color: #000000; text-align: center; letter-spacing: -0.02em;
+  }
+  .s3-sub { font-size: 15px; color: #666666; text-align: center; margin-top: 6px; }
+
+  /* Slide 4 — Closing */
+  .s4-headline {
+    font-size: clamp(52px, 7vw, 88px); font-weight: 700;
+    color: #000000; text-align: center; letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  .s4-link { font-size: 22px; font-weight: 600; color: #000000; text-decoration: none; }
+  .s4-sub { font-size: 16px; color: #888888; text-align: center; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="figma-circles">
+    <div class="fc fc1"></div>
+    <div class="fc fc2"></div>
+    <div class="fc fc3"></div>
+    <div class="fc fc4"></div>
+  </div>
+  <h1 class="s1-headline">Design, prototype, and collaborate — all in one place.</h1>
+  <p class="s1-sub">Figma brings your design process together in a shared, multiplayer creative environment that speeds everything up.</p>
+  <a class="cta-pill" href="#">Get started free →</a>
+</div>
+
+<!-- Slide 2: Pastel Cards -->
+<div class="slide">
+  <h2 class="s2-headline">One tool for the entire design process</h2>
+  <div class="cards-grid">
+    <div class="pastel-card card-lime">
+      <span class="card-emoji">✏️</span>
+      <h3>Design</h3>
+      <p>Vector tools, auto-layout, and components that make designing at scale effortless.</p>
+    </div>
+    <div class="pastel-card card-lavender">
+      <span class="card-emoji">▶️</span>
+      <h3>Prototype</h3>
+      <p>Clickable prototypes with smart animate and interactive components — no code needed.</p>
+    </div>
+    <div class="pastel-card card-mint">
+      <span class="card-emoji">👥</span>
+      <h3>Collaborate</h3>
+      <p>Real-time multiplayer editing, comments, and shared component libraries for your whole team.</p>
+    </div>
+    <div class="pastel-card card-pink">
+      <span class="card-emoji">🔍</span>
+      <h3>Inspect</h3>
+      <p>Developers get precise specs, exportable assets, and auto-generated CSS — directly from designs.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Comparison -->
+<div class="slide">
+  <h2 class="s3-headline">The Figma difference</h2>
+  <p class="s3-sub">Replacing a fragmented toolchain with one unified workflow</p>
+  <div class="comparison-grid">
+    <div class="compare-card before">
+      <h3>❌ Before Figma</h3>
+      <div class="compare-item"><span>🔴</span><span>Sketch for design, Invision for prototyping, Zeplin for handoff</span></div>
+      <div class="compare-item"><span>🔴</span><span>Emailing files back and forth — version chaos guaranteed</span></div>
+      <div class="compare-item"><span>🔴</span><span>Developers work from outdated screenshots</span></div>
+      <div class="compare-item"><span>🔴</span><span>No single source of truth for any team</span></div>
+    </div>
+    <div class="compare-card after">
+      <h3>✅ With Figma</h3>
+      <div class="compare-item"><span>🟢</span><span>Design, prototype, inspect — one browser-based tool</span></div>
+      <div class="compare-item"><span>🟢</span><span>Real-time collaboration; everyone always on the latest version</span></div>
+      <div class="compare-item"><span>🟢</span><span>Developers inspect live files and export production-ready assets</span></div>
+      <div class="compare-item"><span>🟢</span><span>Shared design system keeps every team aligned</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <h1 class="s4-headline">figma.com</h1>
+  <p class="s4-sub">Free for individuals. Built for teams. Loved by designers everywhere.</p>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

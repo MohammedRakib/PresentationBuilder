@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airbnb — Demo Presentation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: system-ui, -apple-system, 'Helvetica Neue', sans-serif; background: #ffffff; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #ffffff;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff385c; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-rausch {
+    width: 40px; height: 40px; margin: 0 auto 24px;
+    color: #ff385c; font-size: 36px; text-align: center; line-height: 1;
+  }
+  .s1-headline {
+    font-size: clamp(44px, 6vw, 78px); font-weight: 700;
+    color: #222222; line-height: 1.05;
+    text-align: center; margin-bottom: 18px; letter-spacing: -0.02em;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 400; color: #3f3f3f;
+    text-align: center; max-width: 480px; line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff385c, #e61e4d);
+    color: #ffffff; font-size: 16px; font-weight: 600;
+    padding: 14px 30px; border-radius: 9999px;
+    text-decoration: none; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255,56,92,0.35);
+  }
+
+  /* Slide 2 — Rounded Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; width: 100%; max-width: 900px; margin-top: 36px;
+  }
+  .feature-card {
+    background: #f7f7f7; border: 1px solid #dddddd;
+    border-radius: 14px; padding: 0; overflow: hidden;
+  }
+  .card-top-accent { height: 4px; background: #ff385c; }
+  .card-body { padding: 26px 22px; }
+  .card-emoji { font-size: 28px; margin-bottom: 14px; }
+  .feature-card h3 {
+    font-size: 18px; font-weight: 600; color: #222222;
+    margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 14px; color: #3f3f3f; line-height: 1.55; }
+  .card-tag {
+    display: inline-block; margin-top: 12px;
+    font-size: 12px; font-weight: 600; color: #ff385c;
+    background: rgba(255,56,92,0.08);
+    padding: 3px 10px; border-radius: 9999px;
+  }
+  .s2-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #222222; text-align: center; letter-spacing: -0.02em;
+  }
+  .s2-sub { font-size: 16px; color: #3f3f3f; text-align: center; margin-top: 6px; }
+
+  /* Slide 3 — Comparison */
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; width: 100%; max-width: 820px; margin-top: 36px;
+  }
+  .compare-card { border-radius: 14px; padding: 28px 24px; }
+  .compare-card.host {
+    background: #f7f7f7; border: 1px solid #dddddd;
+  }
+  .compare-card.guest {
+    background: #fff5f7; border: 2px solid rgba(255,56,92,0.3);
+  }
+  .compare-card h3 {
+    font-size: 17px; font-weight: 600; color: #222222;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid #dddddd;
+  }
+  .compare-card h3 .role-pill {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 9999px; margin-left: 8px;
+    background: #ff385c; color: #ffffff;
+  }
+  .compare-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; color: #3f3f3f; line-height: 1.5; }
+  .s3-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #222222; text-align: center; letter-spacing: -0.02em;
+  }
+
+  /* Slide 4 — Closing */
+  .s4-icon { font-size: 52px; text-align: center; margin-bottom: 22px; color: #ff385c; }
+  .s4-headline {
+    font-size: clamp(38px, 5vw, 64px); font-weight: 700;
+    color: #222222; text-align: center; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .s4-sub {
+    font-size: 17px; color: #3f3f3f; text-align: center;
+    max-width: 440px; line-height: 1.6; margin-bottom: 32px;
+  }
+  .s4-link { font-size: 18px; font-weight: 600; color: #ff385c; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-rausch">♡</div>
+  <h1 class="s1-headline">Belong Anywhere</h1>
+  <p class="s1-sub">Find unique places to stay, experiences led by local experts, and homes that feel like yours — anywhere in the world.</p>
+  <a class="cta-pill" href="#">Explore Homes →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <h2 class="s2-headline">Every type of stay, every type of trip</h2>
+  <p class="s2-sub">Three ways Airbnb transforms how you travel</p>
+  <div class="cards-grid">
+    <div class="feature-card">
+      <div class="card-top-accent"></div>
+      <div class="card-body">
+        <div class="card-emoji">🏡</div>
+        <h3>Homes</h3>
+        <p>From cozy studios to sprawling villas — find a home with the space, privacy, and kitchen you deserve.</p>
+        <span class="card-tag">7M+ listings</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="card-top-accent"></div>
+      <div class="card-body">
+        <div class="card-emoji">🎭</div>
+        <h3>Experiences</h3>
+        <p>Hands-on activities led by local experts — cooking classes, city hikes, pottery — made for curious travelers.</p>
+        <span class="card-tag">50k+ experiences</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="card-top-accent"></div>
+      <div class="card-body">
+        <div class="card-emoji">⭐</div>
+        <h3>Plus</h3>
+        <p>Verified, high-quality homes with exceptional design and amenities — for when only the best will do.</p>
+        <span class="card-tag">Verified quality</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Comparison -->
+<div class="slide">
+  <h2 class="s3-headline">Two sides of the Airbnb story</h2>
+  <div class="comparison-grid">
+    <div class="compare-card host">
+      <h3>Hosting <span class="role-pill">Host</span></h3>
+      <div class="compare-item"><span>🔑</span><span>Turn your extra space into steady supplemental income</span></div>
+      <div class="compare-item"><span>💰</span><span>Hosts earn an average of $14,000/year globally</span></div>
+      <div class="compare-item"><span>🛡️</span><span>$3M AirCover host protection included automatically</span></div>
+      <div class="compare-item"><span>📅</span><span>You control your calendar, pricing, and guest rules</span></div>
+    </div>
+    <div class="compare-card guest">
+      <h3>Traveling <span class="role-pill">Guest</span></h3>
+      <div class="compare-item"><span>🌍</span><span>190+ countries, 100,000+ cities — truly global reach</span></div>
+      <div class="compare-item"><span>🏠</span><span>Unique stays you can't find in any hotel chain</span></div>
+      <div class="compare-item"><span>🔒</span><span>AirCover for guests: full refund if something goes wrong</span></div>
+      <div class="compare-item"><span>⭐</span><span>Verified reviews from real guests you can trust</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <div class="s4-icon">♡</div>
+  <h1 class="s4-headline">Find your somewhere</h1>
+  <p class="s4-sub">Millions of homes. Incredible hosts. Unforgettable experiences. The world is waiting — where will you go next?</p>
+  <a class="s4-link" href="https://airbnb.com">airbnb.com →</a>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

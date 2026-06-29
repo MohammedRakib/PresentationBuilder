@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eBay — Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; background: #ffffff; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #ffffff;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #0968F6; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* eBay Logo lettermark */
+  .ebay-logo {
+    display: flex; align-items: baseline; gap: 1px;
+    font-size: 40px; font-weight: 800; letter-spacing: -0.02em;
+    margin-bottom: 24px; line-height: 1;
+  }
+  .ebay-logo .e { color: #F02D2D; }
+  .ebay-logo .b { color: #0968F6; }
+  .ebay-logo .a { color: #FFBD14; }
+  .ebay-logo .y { color: #4CE160; }
+
+  .ebay-logo-sm {
+    display: flex; align-items: baseline; gap: 0px;
+    font-size: 24px; font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .ebay-logo-sm .e { color: #F02D2D; }
+  .ebay-logo-sm .b { color: #0968F6; }
+  .ebay-logo-sm .a { color: #FFBD14; }
+  .ebay-logo-sm .y { color: #4CE160; }
+
+  /* Slide 1 — Hero */
+  .s1-headline {
+    font-size: clamp(40px, 5.5vw, 70px); font-weight: 700;
+    color: #191919; line-height: 1.08;
+    text-align: center; margin-bottom: 18px; letter-spacing: -0.02em;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 400; color: #666666;
+    text-align: center; max-width: 480px; line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #0968F6; color: #ffffff;
+    font-size: 16px; font-weight: 600;
+    padding: 14px 32px; border-radius: 44px;
+    text-decoration: none; cursor: pointer;
+  }
+
+  /* Slide 2 — Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; width: 100%; max-width: 900px; margin-top: 36px;
+  }
+  .feature-card {
+    background: #ffffff; border: 1.5px solid #e0e0e0;
+    border-radius: 16px; padding: 26px 22px; position: relative;
+  }
+  .corner-badge {
+    position: absolute; top: 14px; right: 14px;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 44px;
+  }
+  .badge-blue { background: rgba(9,104,246,0.1); color: #0968F6; }
+  .badge-red { background: rgba(240,45,45,0.1); color: #F02D2D; }
+  .badge-green { background: rgba(76,225,96,0.12); color: #2ea84c; }
+  .card-emoji { font-size: 28px; margin-bottom: 14px; display: block; }
+  .feature-card h3 {
+    font-size: 18px; font-weight: 600; color: #191919;
+    margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 14px; color: #666666; line-height: 1.55; }
+  .s2-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #191919; text-align: center; letter-spacing: -0.02em;
+  }
+  .s2-sub { font-size: 16px; color: #666666; text-align: center; margin-top: 6px; }
+
+  /* Slide 3 — Comparison */
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; width: 100%; max-width: 820px; margin-top: 36px;
+  }
+  .compare-card { border-radius: 16px; padding: 28px 24px; }
+  .compare-card.retail {
+    background: #fff5f5; border: 1.5px solid rgba(240,45,45,0.2);
+  }
+  .compare-card.ebay-side {
+    background: #f0f5ff; border: 1.5px solid rgba(9,104,246,0.25);
+  }
+  .compare-card h3 {
+    font-size: 17px; font-weight: 600; color: #191919;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .compare-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; color: #444444; line-height: 1.5; }
+  .s3-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #191919; text-align: center; letter-spacing: -0.02em;
+  }
+
+  /* Slide 4 — Closing */
+  .s4-headline {
+    font-size: clamp(32px, 4vw, 52px); font-weight: 700;
+    color: #191919; text-align: center; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .s4-sub {
+    font-size: 17px; color: #666666; text-align: center;
+    max-width: 440px; line-height: 1.6; margin-bottom: 32px;
+  }
+  .s4-link { font-size: 18px; font-weight: 600; color: #0968F6; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="ebay-logo">
+    <span class="e">e</span><span class="b">B</span><span class="a">a</span><span class="y">y</span>
+  </div>
+  <h1 class="s1-headline">Shop the world.</h1>
+  <p class="s1-sub">Electronics, fashion, collectibles, and everything in between. Millions of listings. Millions of sellers. One marketplace.</p>
+  <a class="cta-pill" href="#">Start Shopping →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <h2 class="s2-headline">Something for every buyer</h2>
+  <p class="s2-sub">Three of the biggest categories on eBay's global marketplace</p>
+  <div class="cards-grid">
+    <div class="feature-card">
+      <span class="corner-badge badge-blue">2B+ listings</span>
+      <span class="card-emoji">💻</span>
+      <h3>Electronics</h3>
+      <p>From the latest smartphones to vintage cameras — find new, refurbished, and used tech at prices retailers can't match.</p>
+    </div>
+    <div class="feature-card">
+      <span class="corner-badge badge-red">Top picks</span>
+      <span class="card-emoji">👗</span>
+      <h3>Fashion</h3>
+      <p>Designer brands, streetwear, sneakers, and accessories. Authenticated luxury goods and pre-loved finds side by side.</p>
+    </div>
+    <div class="feature-card">
+      <span class="corner-badge badge-green">Rare finds</span>
+      <span class="card-emoji">🏆</span>
+      <h3>Collectibles</h3>
+      <p>Sports cards, coins, memorabilia, and one-of-a-kind items. The world's best marketplace for collectors since 1995.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Comparison -->
+<div class="slide">
+  <h2 class="s3-headline">Why buyers choose eBay</h2>
+  <div class="comparison-grid">
+    <div class="compare-card retail">
+      <h3>🔴 Retail Store</h3>
+      <div class="compare-item"><span>❌</span><span>Fixed prices with no room to negotiate</span></div>
+      <div class="compare-item"><span>❌</span><span>Limited selection — only current season stock</span></div>
+      <div class="compare-item"><span>❌</span><span>Discontinued items simply unavailable</span></div>
+      <div class="compare-item"><span>❌</span><span>No access to rare, vintage, or collector items</span></div>
+      <div class="compare-item"><span>❌</span><span>Restricted to local store hours and inventory</span></div>
+    </div>
+    <div class="compare-card ebay-side">
+      <h3>🔵 eBay Marketplace</h3>
+      <div class="compare-item"><span>✅</span><span>Bid, buy, or negotiate — you set the price you want</span></div>
+      <div class="compare-item"><span>✅</span><span>Hundreds of millions of listings across every category</span></div>
+      <div class="compare-item"><span>✅</span><span>Find discontinued items no one else can source</span></div>
+      <div class="compare-item"><span>✅</span><span>Certified rare and collectible items with buyer protection</span></div>
+      <div class="compare-item"><span>✅</span><span>Shop 24/7 from sellers in 190+ countries worldwide</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <div class="ebay-logo" style="font-size:52px; margin-bottom:28px">
+    <span class="e">e</span><span class="b">B</span><span class="a">a</span><span class="y">y</span>
+  </div>
+  <h1 class="s4-headline">Find your perfect something.</h1>
+  <p class="s4-sub">190+ countries. 2 billion+ listings. The world's most trusted online marketplace — since 1995.</p>
+  <a class="s4-link" href="https://ebay.com">ebay.com →</a>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

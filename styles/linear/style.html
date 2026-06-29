@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear — Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: #010102; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #010102;
+  }
+
+  .nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 100; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #5e6ad2; opacity: 0.3; cursor: pointer; transition: opacity 0.2s; }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-wordmark {
+    font-size: 13px; font-weight: 500; color: #5e6ad2;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .s1-headline {
+    font-size: clamp(48px, 6vw, 76px); font-weight: 700;
+    color: #f7f8f8; line-height: 1.05;
+    text-align: center; margin-bottom: 20px;
+    letter-spacing: -0.03em;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 300; color: #8a8f98;
+    text-align: center; max-width: 500px; line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #5e6ad2; color: #ffffff;
+    font-size: 14px; font-weight: 500;
+    padding: 10px 22px; border-radius: 8px;
+    text-decoration: none; letter-spacing: 0.01em;
+    cursor: pointer;
+  }
+
+  /* Slide 2 — Feature Panels */
+  .panels-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; width: 100%; max-width: 900px; margin-top: 36px;
+  }
+  .feature-panel {
+    background: #0f1011; border: 1px solid #23252a;
+    border-radius: 8px; padding: 28px 24px;
+  }
+  .panel-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #5e6ad2; margin-bottom: 18px;
+  }
+  .feature-panel h3 {
+    font-size: 16px; font-weight: 600; color: #f7f8f8;
+    margin-bottom: 10px;
+  }
+  .feature-panel p { font-size: 13px; font-weight: 300; color: #8a8f98; line-height: 1.6; }
+  .panel-tag {
+    display: inline-block; margin-top: 14px;
+    font-size: 11px; font-weight: 500; color: #5e6ad2;
+    background: rgba(94,106,210,0.12); border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .s2-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #f7f8f8; text-align: center; letter-spacing: -0.02em;
+  }
+  .s2-sub { font-size: 15px; color: #8a8f98; text-align: center; margin-top: 6px; }
+
+  /* Slide 3 — Metrics */
+  .metrics-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; width: 100%; max-width: 840px; margin-top: 36px;
+  }
+  .metric-card {
+    background: #0f1011; border: 1px solid #23252a;
+    border-radius: 8px; padding: 36px 24px; text-align: center;
+  }
+  .metric-value {
+    font-size: 38px; font-weight: 700; color: #f7f8f8;
+    letter-spacing: -0.03em; line-height: 1; margin-bottom: 10px;
+  }
+  .metric-accent { color: #5e6ad2; }
+  .metric-label { font-size: 13px; font-weight: 400; color: #8a8f98; }
+  .metric-sub { font-size: 12px; color: #5e6ad2; margin-top: 6px; font-weight: 400; }
+  .s3-headline {
+    font-size: clamp(26px, 3vw, 40px); font-weight: 700;
+    color: #f7f8f8; text-align: center; letter-spacing: -0.02em;
+  }
+  .s3-sub { font-size: 15px; color: #8a8f98; text-align: center; margin-top: 6px; }
+
+  /* Slide 4 — Closing */
+  .s4-line {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, #5e6ad2, transparent);
+    margin: 20px auto;
+  }
+  .s4-headline {
+    font-size: clamp(44px, 6vw, 72px); font-weight: 700;
+    color: #f7f8f8; text-align: center; letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .s4-sub { font-size: 17px; color: #8a8f98; text-align: center; margin-bottom: 36px; }
+  .s4-handle { font-size: 15px; color: #5e6ad2; font-weight: 400; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-wordmark">Linear</div>
+  <h1 class="s1-headline">Built for speed.</h1>
+  <p class="s1-sub">The issue tracker that doesn't get in your way. Linear is ruthlessly focused on speed, simplicity, and the work that actually matters.</p>
+  <a class="cta-pill" href="#">Try Linear free →</a>
+</div>
+
+<!-- Slide 2: Feature Panels -->
+<div class="slide">
+  <h2 class="s2-headline">Every tool your team needs</h2>
+  <p class="s2-sub">Built around how high-performing teams actually work</p>
+  <div class="panels-grid">
+    <div class="feature-panel">
+      <div class="panel-dot"></div>
+      <h3>Issues</h3>
+      <p>Create, triage, and track issues with sub-millisecond response times. No lag, no friction — just flow.</p>
+      <span class="panel-tag">Core</span>
+    </div>
+    <div class="feature-panel">
+      <div class="panel-dot"></div>
+      <h3>Cycles</h3>
+      <p>Ship faster with time-boxed sprints. Automatically roll over incomplete work and surface what's blocking progress.</p>
+      <span class="panel-tag">Velocity</span>
+    </div>
+    <div class="feature-panel">
+      <div class="panel-dot"></div>
+      <h3>Projects</h3>
+      <p>Group issues into projects, set milestones, and track progress toward your most important goals.</p>
+      <span class="panel-tag">Planning</span>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Metrics -->
+<div class="slide">
+  <h2 class="s3-headline">A different kind of fast</h2>
+  <p class="s3-sub">Performance metrics your team will actually feel</p>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-value"><span class="metric-accent">10×</span> Faster</div>
+      <div class="metric-label">Than Jira, measured</div>
+      <div class="metric-sub">50ms avg response</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">Zero</div>
+      <div class="metric-label">Unnecessary Clicks</div>
+      <div class="metric-sub">Keyboard-first by design</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value"><span class="metric-accent">Real-time</span></div>
+      <div class="metric-label">Sync Across Devices</div>
+      <div class="metric-sub">Offline-first architecture</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <h1 class="s4-headline">Q&amp;A</h1>
+  <div class="s4-line"></div>
+  <p class="s4-sub">Ready to move at the speed of thought?<br>Let's talk about how Linear can transform your team's workflow.</p>
+  <div class="s4-handle">linear.app</div>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>

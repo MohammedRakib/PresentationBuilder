@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stripe — Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: #ffffff; }
+
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
+    padding: 80px 120px;
+    background: #ffffff;
+  }
+
+  .nav {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 100;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #533afd; opacity: 0.3; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .dot.active { opacity: 1; }
+
+  /* Slide 1 — Hero */
+  .s1-badge {
+    display: inline-block;
+    background: rgba(83,58,253,0.08);
+    color: #533afd; font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 20px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .s1-headline {
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 700; color: #061b31;
+    line-height: 1.15; text-align: center;
+    max-width: 700px; margin-bottom: 20px;
+  }
+  .s1-sub {
+    font-size: 18px; font-weight: 300; color: #64748d;
+    text-align: center; max-width: 540px; line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .cta-pill {
+    display: inline-block;
+    background: #533afd; color: #ffffff;
+    font-size: 15px; font-weight: 600;
+    padding: 12px 28px; border-radius: 6px;
+    text-decoration: none; letter-spacing: 0.01em;
+    box-shadow: 0 2px 8px rgba(83,58,253,0.4), 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+
+  /* Slide 2 — Feature Cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; width: 100%; max-width: 900px; margin-top: 32px;
+  }
+  .feature-card {
+    background: #ffffff;
+    border: 1px solid #e8eaf0;
+    border-left: 3px solid #533afd;
+    border-radius: 6px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 8px rgba(50,50,93,0.25), 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .feature-card-icon {
+    font-size: 26px; margin-bottom: 14px;
+  }
+  .feature-card h3 {
+    font-size: 17px; font-weight: 600; color: #061b31;
+    margin-bottom: 10px;
+  }
+  .feature-card p {
+    font-size: 14px; font-weight: 300; color: #64748d;
+    line-height: 1.6;
+  }
+  .s2-label {
+    font-size: 13px; font-weight: 600; color: #533afd;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .s2-headline {
+    font-size: clamp(28px, 3vw, 42px); font-weight: 700;
+    color: #061b31; margin-bottom: 6px;
+  }
+
+  /* Slide 3 — Metrics */
+  .metrics-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; width: 100%; max-width: 860px; margin-top: 32px;
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid #e8eaf0;
+    border-radius: 6px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(50,50,93,0.25), 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .stat-value {
+    font-size: 42px; font-weight: 700; color: #533afd;
+    line-height: 1; margin-bottom: 10px;
+  }
+  .stat-label {
+    font-size: 14px; font-weight: 400; color: #64748d;
+  }
+  .s3-headline {
+    font-size: clamp(28px, 3vw, 42px); font-weight: 700;
+    color: #061b31; text-align: center; margin-bottom: 6px;
+  }
+  .s3-sub {
+    font-size: 16px; font-weight: 300; color: #64748d;
+    text-align: center;
+  }
+
+  /* Slide 4 — Closing */
+  .s4-divider {
+    width: 48px; height: 3px; background: #533afd;
+    border-radius: 2px; margin: 24px auto;
+  }
+  .s4-headline {
+    font-size: clamp(40px, 5vw, 64px); font-weight: 700;
+    color: #061b31; text-align: center; margin-bottom: 14px;
+  }
+  .s4-sub {
+    font-size: 18px; font-weight: 300; color: #64748d;
+    text-align: center; margin-bottom: 36px;
+  }
+  .s4-link {
+    font-size: 20px; font-weight: 600; color: #533afd;
+    text-decoration: none;
+  }
+  .s4-link:hover { text-decoration: underline; }
+  .s4-note {
+    margin-top: 16px; font-size: 14px; font-weight: 300;
+    color: #64748d;
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide">
+  <div class="s1-badge">Financial Infrastructure</div>
+  <h1 class="s1-headline">The Infrastructure of the Internet Economy</h1>
+  <p class="s1-sub">Stripe helps millions of companies — from startups to Fortune 500s — accept payments, grow revenue, and accelerate new business opportunities.</p>
+  <a class="cta-pill" href="#">Get Started →</a>
+</div>
+
+<!-- Slide 2: Feature Cards -->
+<div class="slide">
+  <div style="text-align:center">
+    <div class="s2-label">Products</div>
+    <h2 class="s2-headline">Everything you need to grow</h2>
+  </div>
+  <div class="cards-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">💳</div>
+      <h3>Payments</h3>
+      <p>Accept every payment globally — cards, wallets, bank transfers — with one unified integration and 135+ currencies.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">📄</div>
+      <h3>Billing</h3>
+      <p>Launch and scale recurring revenue with automated invoicing, smart retries, and revenue recovery built in.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">🔗</div>
+      <h3>Connect</h3>
+      <p>Build marketplaces and platforms that onboard sellers, route funds, and manage payouts across 46 countries.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Metrics -->
+<div class="slide">
+  <h2 class="s3-headline">Trusted at global scale</h2>
+  <p class="s3-sub">Powering businesses on every continent, every second of every day.</p>
+  <div class="metrics-grid">
+    <div class="stat-card">
+      <div class="stat-value">99.999%</div>
+      <div class="stat-label">Platform Uptime</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">195+</div>
+      <div class="stat-label">Countries Supported</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$1T+</div>
+      <div class="stat-label">Total Volume Processed</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Closing -->
+<div class="slide">
+  <h1 class="s4-headline">Questions?</h1>
+  <div class="s4-divider"></div>
+  <p class="s4-sub">We'd love to talk about how Stripe can power your business — from first payment to global scale.</p>
+  <a class="s4-link" href="https://stripe.com">stripe.com</a>
+  <p class="s4-note">Start for free · No monthly fees · Pay only when you earn</p>
+</div>
+
+<div class="nav">
+  <div class="dot active" onclick="show(0)"></div>
+  <div class="dot" onclick="show(1)"></div>
+  <div class="dot" onclick="show(2)"></div>
+  <div class="dot" onclick="show(3)"></div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  slides.forEach((s, i) => s.style.opacity = i === n ? '1' : '0');
+  slides.forEach((s, i) => s.style.pointerEvents = i === n ? 'auto' : 'none');
+  slides.forEach((s, i) => s.style.zIndex = i === n ? '1' : '0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  current = n;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); if (current < slides.length - 1) show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); if (current > 0) show(current - 1); }
+});
+show(0);
+</script>
+</body>
+</html>
