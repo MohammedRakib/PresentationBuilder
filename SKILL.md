@@ -453,6 +453,46 @@ Before generating, check the `assets/` folder. If images are present:
 
 ---
 
+## Slide-by-Slide Editing
+
+After the initial deck is generated, the user can request targeted edits to specific slides. Apply only the changes described — never regenerate unrelated slides.
+
+### Accepting edit instructions
+
+Recognize any of these formats as a slide-specific edit:
+
+- `"Slide 3: [instruction]"` — explicit slide number
+- `"Edit slide 3 — [instruction]"` — natural language with number
+- `"The motivation slide: [instruction]"` — reference by slide title or role
+- Multiple edits in one message — apply all of them in a single pass
+
+If the user references a slide by number and it's ambiguous (e.g., "slide 5" but there are only 4 slides), clarify before editing.
+
+### Types of edits
+
+| Request type | Examples |
+|---|---|
+| **Content change** | "Slide 2: change the headline to 'Memory-Efficient Training'" |
+| **Layout change** | "Slide 4: switch from three cards to a two-column comparison" |
+| **Visual change** | "Slide 1: make the title much larger and add more whitespace" |
+| **Data / metric change** | "Slide 6: update the accuracy from 87% to 94.2% and relabel the bar" |
+| **Add a slide** | "Add a slide after slide 3 showing the system architecture" |
+| **Remove a slide** | "Remove slide 7 — it's redundant" |
+| **Reorder** | "Move slide 5 to be slide 2" |
+| **Animation change** | "Slide 4: reveal each card one at a time instead of all at once" |
+| **Code snippet** | "Slide 8: replace the code block with just the forward pass function, max 10 lines" |
+| **Global change** | "Increase the heading size on every slide by one step" |
+
+### Editing rules
+
+- **Surgical edits only** — modify the targeted slide's HTML block in place. Do not rewrite the entire file unless the user explicitly asks for a full regeneration.
+- **Preserve slide numbering** — when adding or removing slides, renumber the `slideAnimations` index references in JavaScript to match.
+- **Maintain consistency** — if an edit changes a color, font size, or component pattern, check that the change doesn't violate the style chosen for the deck (e.g., don't introduce a new accent color on one slide in a monochrome deck).
+- **Re-save and re-open** — after every edit, save the updated HTML to `final_slides/` and prompt the user to refresh their browser.
+- **Confirm multi-slide edits** — if the user gives 3+ edits at once, list what you're about to change before applying, so they can correct misunderstandings upfront.
+
+---
+
 ## Tone Adaptation
 
 | Presentation type | Mood | Style recommendation | Animations |

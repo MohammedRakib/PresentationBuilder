@@ -165,11 +165,55 @@ Claude saves the output to `final_slides/<name>-slides.html` and opens it in you
 | `Space` or `→` | Next animation step, then next slide |
 | `←` | Previous slide |
 
-Tell Claude what to change in plain conversation. You don't need to restart — just say:
+---
 
-- "Make the title slide more dramatic"
-- "Add a slide after slide 3 showing the architecture diagram"
-- "The metrics on slide 5 need to be bigger"
+#### Editing slides after generation
+
+You can edit the deck slide by slide — no need to regenerate from scratch. Just tell Claude which slide and what to change.
+
+**Reference a slide by number:**
+```
+Slide 3: change the headline to "Memory-Efficient Attention"
+```
+
+**Reference a slide by its role:**
+```
+The motivation slide: add a second sentence explaining why existing methods fail
+```
+
+**Change content or data:**
+```
+Slide 6: update the accuracy from 87% to 94.2% and relabel the comparison bar
+```
+
+**Change layout or visual treatment:**
+```
+Slide 4: switch from three cards to a two-column comparison — left side old approach, right side ours
+```
+
+**Add a new slide:**
+```
+Add a slide after slide 3 showing the system architecture diagram from assets/arch.png
+```
+
+**Remove a slide:**
+```
+Remove slide 7 — it's redundant with slide 5
+```
+
+**Change animations:**
+```
+Slide 4: reveal each card one at a time instead of showing them all at once
+```
+
+**Apply multiple edits in one message:**
+```
+Slide 1: make the title larger and add more breathing room
+Slide 3: the code block is too long — crop to just the forward pass, max 10 lines
+Slide 5: replace "87%" with "94.2%" everywhere on this slide
+```
+
+> Claude applies only the changes you describe and preserves everything else. After each edit, refresh your browser to see the updated result.
 
 ---
 
